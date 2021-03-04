@@ -103,44 +103,47 @@ fun TimerCircle(
     elapsedTime: Long,
     totalTime: Long
 ) {
-    androidx.compose.foundation.Canvas(modifier = modifier.fillMaxSize(), onDraw = {
-        val height = size.height
-        val width = size.width
-        val dotDiameter = 12.dp
-        val strokeSize = 30.dp
-        val radiusOffset = calculateRadiusOffset(strokeSize.value, dotDiameter.value, 0f)
+    androidx.compose.foundation.Canvas(
+        modifier = modifier.fillMaxSize(),
+        onDraw = {
+            val height = size.height
+            val width = size.width
+            val dotDiameter = 12.dp
+            val strokeSize = 30.dp
+            val radiusOffset = calculateRadiusOffset(strokeSize.value, dotDiameter.value, 0f)
 
-        val xCenter = width / 2f
-        val yCenter = height / 2f
-        val radius = min(xCenter, yCenter)
-        val arcWidthHeight = ((radius - radiusOffset) * 2f)
-        val arcSize = Size(arcWidthHeight, arcWidthHeight)
+            val xCenter = width / 2f
+            val yCenter = height / 2f
+            val radius = min(xCenter, yCenter)
+            val arcWidthHeight = ((radius - radiusOffset) * 2f)
+            val arcSize = Size(arcWidthHeight, arcWidthHeight)
 
-        val remainderColor = Color.White.copy(alpha = 0.25f)
-        val completedColor = Color(0xFFFF8000)
+            val remainderColor = Color.White.copy(alpha = 0.25f)
+            val completedColor = Color(0xFFFF8000)
 
-        val whitePercent =
-            min(1f, elapsedTime.toFloat() / totalTime.toFloat())
-        val greenPercent = 1 - whitePercent
+            val whitePercent =
+                min(1f, elapsedTime.toFloat() / totalTime.toFloat())
+            val greenPercent = 1 - whitePercent
 
-        drawArc(
-            completedColor,
-            270f,
-            -greenPercent * 360f,
-            false,
-            topLeft = Offset(radiusOffset, radiusOffset),
-            size = arcSize,
-            style = Stroke(width = strokeSize.value, cap = StrokeCap.Round)
-        )
+            drawArc(
+                completedColor,
+                270f,
+                -greenPercent * 360f,
+                false,
+                topLeft = Offset(radiusOffset, radiusOffset),
+                size = arcSize,
+                style = Stroke(width = strokeSize.value, cap = StrokeCap.Round)
+            )
 
-        drawArc(
-            remainderColor,
-            270f,
-            whitePercent * 360,
-            false,
-            topLeft = Offset(radiusOffset, radiusOffset),
-            size = arcSize,
-            style = Stroke(width = strokeSize.value)
-        )
-    })
+            drawArc(
+                remainderColor,
+                270f,
+                whitePercent * 360,
+                false,
+                topLeft = Offset(radiusOffset, radiusOffset),
+                size = arcSize,
+                style = Stroke(width = strokeSize.value)
+            )
+        }
+    )
 }

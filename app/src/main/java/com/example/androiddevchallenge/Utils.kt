@@ -21,10 +21,10 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import kotlin.math.max
 
-fun calculateRadiusOffset(strokeSize: Float, dotStrokeSize: Float, markerStrokeSize: Float)
-        : Float {
-    return max(strokeSize, max(dotStrokeSize, markerStrokeSize))
-}
+fun calculateRadiusOffset(strokeSize: Float, dotStrokeSize: Float, markerStrokeSize: Float):
+    Float {
+        return max(strokeSize, max(dotStrokeSize, markerStrokeSize))
+    }
 
 fun millisToSeconds(ms: Long) = (ms / 1000L).toInt()
 
