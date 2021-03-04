@@ -17,20 +17,59 @@ package com.example.androiddevchallenge
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.example.androiddevchallenge.ui.ButtonRow
+import com.example.androiddevchallenge.ui.TimerCircleComponent
 import com.example.androiddevchallenge.ui.theme.MyTheme
 
 class MainActivity : AppCompatActivity() {
+    val viewModel: CountDownViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        setUpStatusBar(android.graphics.Color.parseColor("#00000000"), 1)
         super.onCreate(savedInstanceState)
+        var totalTime = 10000L
         setContent {
             MyTheme {
-                MyApp()
+                val configuration = LocalConfiguration.current
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Black)
+                ) {
+                    TimerCircleComponent(
+                        modifier = Modifier.layoutId("progCircle"),
+                        screenWidthDp = configuration.screenWidthDp,
+                        screenHeightDp = configuration.screenHeightDp,
+                        time = viewModel.lastSeconds.toString(),
+                        state = viewModel.countDownState,
+                        elapsedTime = viewModel.elapsedTimeInMillis,
+                        totalTime = totalTime
+                    )
+                    ButtonRow(
+                        modifier = Modifier
+                            .layoutId("buttonRow")
+                            .padding(0.dp, 20.dp),
+                        buttonWidth = (0.8 * configuration.screenWidthDp).dp,
+                        sendCommand = {
+                            viewModel.startTimer(totalTime)
+                        }
+                    )
+                }
             }
         }
     }
@@ -40,7 +79,7 @@ class MainActivity : AppCompatActivity() {
 @Composable
 fun MyApp() {
     Surface(color = MaterialTheme.colors.background) {
-        Text(text = "Ready... Set... GO!")
+
     }
 }
 
@@ -59,3 +98,5 @@ fun DarkPreview() {
         MyApp()
     }
 }
+
+
